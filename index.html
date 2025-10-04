@@ -422,6 +422,7 @@
             to { opacity: 1; }
         }
 
+        /* --- Responsive Design --- */
         @media (max-width: 768px) {
             .logo-text { font-size: 2.5rem; }
             .neon-button { padding: 0.75rem 2rem; font-size: 1rem; }
@@ -433,48 +434,6 @@
             .nav-item { padding: 0.5rem 0.5rem; }
             #reading-panel { padding: 1rem; }
         }
-
-        /* --- Full Screen Reader Mode --- */ /* <--- PASTE THE NEW CSS CODE HERE */
-        body.reader-mode {
-            /* Ensures no scrollbars appear on the body itself */
-            overflow: hidden;
-        }
-        
-        /* Hide distractions when in reader mode */
-        body.reader-mode #nav-bar,
-        body.reader-mode .slime-orb {
-            display: none !important;
-        }
-        /* ... (the rest of the new CSS code goes here) ... */
-        @media (max-width: 768px) {
-            body.reader-mode #reading-panel {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-             body.reader-mode #reader-screen #progress-bar-container {
-                 width: 100%;
-             }
-        }
-        
-        }
-        /* --- Full Screen Reader Mode --- */
-    body.reader-mode {
-        /* Ensures no scrollbars appear on the body itself */
-        overflow: hidden;
-    }
-    
-    /* Hide distractions when in reader mode */
-    body.reader-mode #nav-bar,
-    body.reader-mode .slime-orb {
-        display: none !important;
-    }
-
-    /* Style the button container in reader mode to be a vertical stack */ /* <-- PASTE THE NEW CSS RULE HERE */
-    body.reader-mode .reader-nav-buttons {
-        flex-direction: column;
-    }
-
-    /* ... (the rest of the full screen CSS) ... */
     </style>
 </head>
 <body>
@@ -731,6 +690,7 @@ const CHAPTER_1_CONTENT = `
 `;
 // Content for Chapter 1 Part 2
         const CHAPTER_1_PART_2_CONTENT = `
+    <h3 style="text-align: center; margin-top: 3rem; margin-bottom: 2rem; color: var(--color-accent);">MY FIRST FRIEND(II)</h3>
     <p>Munch, munch. Munch, munch, munch, munch. I just snacked on some grass. Why did I do that? Well, why not? Not like I had anything else to do!</p>
 
     <p>It had been a few days or so since I was pretty much forced to accept the fact that I was now a slime. How many, I wasn’t exactly clear on. The passage of time is tough to pick up on when all you can see is total darkness. One discovery I had stumbled upon over the past few days was that a slime’s body could be way more useful than at first sniff. I never got hungry, for one, nor did I get tired. Food and sleep, for me, were wholly unnecessary. And I had divined something else, too. I couldn’t be completely sure, but there didn’t seem to be anything else living around here. In terms of danger, I wasn’t sure there was any to speak of. My days were blissfully free of worry.</p>
@@ -1014,204 +974,6 @@ const CHAPTER_1_CONTENT = `
     
     <p>The moment I invoked Magic Sense, my brain was filled with new information. A massive amount, something my human brain never could’ve processed—the waves of light and sound pushing every single tiny particle around—and I processed it all, converting it into perceptible data.</p>
 `;
-        // Content for Chapter 1 Part 4 with Veldora illustration
-        const CHAPTER_1_PART_4_CONTENT = `
-    <p>The thing about human eyesight is that it doesn’t give you even a 180-degree view of what’s in front of you. Now, all of a sudden, I could “see” a full 360 degrees around myself. The shadows of the rocks around me, the views hundreds of meters away—the moment I turned my attention to it, I could figure out what it was. If I were still human, all this perception data probably would’ve fried my brain circuits. But now I was a slime. My cells could provide muscle just as easily as brain power. So somehow or other, I withstood the torrent of information. Then—</p>
-    
-    <span class="sage-voice">Synchronizing extra skill Magic Sense with unique skill Great Sage… Successful. All information will now be managed by Great Sage.</span>
-    
-    <p>Suddenly, my vision opened up. The brain-searing sensation from before was gone, and then I could see—so clearly that it was a wonder I wasn’t able to do it before. Something told me that having the Sage at my side was almost cheating. It wouldn’t be going too far to put it that way. If someone else had it, I’d probably bitch that it was against the rules. Since I had it, though… No problem.</p>
-    
-    <p><i>Oh, I think I’ve got it. Thank you very much!</i> I said, turning my attention to the creature in front of me. Holy crap. He really was a dragon. He was covered in scales that shone a dark shade of black, tougher looking than steel itself but supple and flexible. A big, evil-looking…</p>
-    
-    <p><i>Gahh! You’re a dragon!!</i></p>
-    
-    <p>He looked positively demonic, towering far higher than I anticipated. My internal scream welled up, pouring out of me, and I don’t think I could really be blamed for it. What a surprise. I feel bad for ever thinking this guy was pet sized. This was…for real. Absolutely no doubt. The body, startlingly similar to a Western-style dragon’s, shone like obsidian. There were six fingers on each “hand,” equipped with claws that looked ready to tear through whatever they found. The two pairs of wings on his back—one larger than the other—came to a point at their respective ends, like swords honed to perfection and ready to dice.</p>
-
-    <img src="https://i.imgur.com/u7f3bYy.jpeg" alt="The sealed Storm Dragon, Veldora" loading="lazy" style="max-width: 90%; width: 500px; height: auto; margin: 1.5rem auto; display: block; border-radius: 0.5rem; box-shadow: 0 0 10px var(--color-primary);">
-
-    <p>Upon closer observation, the ominous scales covering his entire body actually radiated a dark purplish light—a mixture, perhaps, of their natural color and the unearthly force that made its way through the surface. There was something strangely beautiful about his vast shape, the picture of majestic dignity. I began regretting being so rude back when I couldn’t take it all in, but that was all water under the bridge. Turned out, by the way, that I was indeed oval shaped. Like a little bun. Kind of a…light turquoise, maybe? Lighter than the daylight sky, but not by a lot. A rather elegant color, I thought. Shame about the whole being-a-slime thing.</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">You do remember your promise, yes? And considering your previous complaints, you learned rather quickly, no?</p>
-    
-    <p><i>Oh, of course! I was just joking a little, is all. I can see just fine, and plus I can hear now, too. I really appreciate this!</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Hmph. You could have taken your time…</p>
-    
-    <p>So he was fine after all. A little scary looking, but he was awfully kind to me, for no good reason. He really was lonely, I imagined. It was unfortunate that he looked the way he did. Kind of like that little story about the poor red demon who wanted to befriend the humans.</p>
-    
-    <p><i>So what do you intend to do next?</i></p>
-    
-    <p><i>Well, for starters, I figure I might as well look for some otherworlders from my home country. Not that I care too much if I don’t, but…you know.</i></p>
-    
-    <p>Finding some would be better, but it’s not as if we’re guaranteed to become fast friends. Plus, with my brand-new eyesight, scoping out the world could do wonders for me. Harvesting the light and sound around me had just expanded my world a thousandfold. Now, finally, I could say good-bye to my days of literally chewing the cud in my tiny cave or whatever. That dragon, though. The more I stared at him, the more sinister and terrifying he seemed. And yet he didn’t move a single inch. He mentioned a three- hundred-year-old seal, right?</p>
-    
-    <p><i>By the way, Veldora, you said something about being…sealed away?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Mm? Ah. Yes, I perhaps underestimated my opponent slightly. I eventually began fighting with, shall we say, more urgency, but… well, it was rather too late by then!</p>
-    
-    <p>The dragon sounded almost proud of his losing performance. Magic was one thing, but I doubted there was a sword or lance in this or any other world that could scratch him. It wasn’t as if I knew that much of this world yet—maybe it was crawling with horrifying monsters even more powerful than him, or something?</p>
-    
-    <p><i>Was your opponent that tough?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">She was…quite strong. She was what the humans call a “hero,” one blessed with so-called divine protection.</p>
-    
-    <p>A hero? My days in front of a game console had made me well familiar with that term. Simply doing hero stuff didn’t make you dragon-slaying material, though. A lot of recent games had turned their so-called “heroes” into foils or parodies of themselves, besides. Maybe things were still a bit more traditional around here.</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Now that I recall, Veldora continued, the hero also said she was “summoned.” Perhaps she hails from the same area as you.</p>
-    
-    <p><i>Oh? I dunno… Where I come from, nobody’s that strong, you know?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Perhaps, but many otherworlders come here bearing special powers. Powers that are chiseled into their souls in the midst of their journey. The summoned will always bear one such skill—a unique skill, one exclusive to them and them alone. Unlike the otherworlders who come here by sheer accident, these people bear a soul strong enough to withstand the stress of the summoning process. The fact that said summoning process so rarely succeeds in this world otherwise proves as much.</p>
-    
-    <p><i>When you say “summoning process,” do you mean…magic, or whatever?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Precisely. A process requiring at least thirty magicians conducting a ceremony that takes place over three days. It is rarely successful, but it is seen as a powerful weapon to have in one’s arsenal, should the need arise.</p>
-    
-    <p><i>A weapon?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Mm. Those summoned in such a manner are bound by a magical curse upon their soul, unable to resist the orders of their masters.</p>
-    
-    <p>Whoa, really? No human rights or anything?</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Human rights? What rights would one possibly expect in this, of all worlds? Do not entertain such fantasies in this realm, little one. The only law that reigns here is survival of the fittest. Might, as they say, makes right.</p>
-    
-    <p>Well, huh. If you got summoned to this world, no point hoping that your old values applied over here, I guessed. Bit hard to accept that.</p>
-    
-    <p><i>So are you saying that otherworlders pretty much get treated like slaves here?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">No. It depends. There is no Domination Stamp applied to them. If society accepts them, they are free to live their lives as they please. They can become adventurers or the like. Many otherworlder adventurers have sought my head… They learned the error of their ways soon enough! Hyaaa-ha-ha-ha-ha!!</p>
-    
-    <p><i>So you’re only forced into servitude if you were summoned here, huh…?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Not “servitude,” exactly, but I suppose so, yes. I like to believe I know a great deal about the humans, but “a great deal” is not everything.</p>
-    
-    <p>No… You’re a dragon, besides. In a way, he knew almost too much as a dragon. At least conversing together put me on his good side—enough that he answered all my questions. So we kept talking—Veldora and I, dragon and slime, about all sorts of things.</p>
-    
-    <hr style="border: none; border-top: 1px dashed var(--border-glass); width: 80%; margin: 3rem auto;">
-    
-    <p>How had the fight gone with this hero? How strong was she? Her skin was pale in color, the dragon told me; her lips were bright red and small. Her long hair was a dark shade of silver, kept back in a single ponytail. She was slim, not that tall, rather small for a human. Her face was apparently covered by a mask, but there was no doubting her beauty. I asked him whether this beauty was enough to distract him, whether he was too enrapt to defend himself properly. <i>Enough of your nonsense!</i> he bellowed back at me. Apparently she carried a long, curved sword. A “katana,” it was called. She didn’t bother with a shield. Taking advantage of two unique skills—Absolute Severance and Unlimited Imprisonment—and a wealth of other magic, she, as Veldora put it, “overwhelmed” him. There was more than a trace of nostalgic contentment in his voice, or so it seemed to me.</p>
-    
-    <p>Something I picked up on as we spoke was that this dragon… I think he really liked humans. He kept calling them “wimps” and “garbage” and such, but from the way he put it, he never deliberately killed anyone who attacked him. Not unless they went out of their way to rile him. One time, three centuries ago—just one time, he emphasized—a certain chain of events made him reduce an entire city to embers. That was what made the people send a hero his way, and now—thanks to that hero’s Unlimited Imprisonment—he was in his current predicament.</p>
-    
-    <p>I had trouble enough figuring out my own feelings about a lot of things. Other people’s, I could only guess at. But I was starting to get the impression that, well, maybe this wasn’t such a bad dragon at all. I mean, I liked him. And he wasn’t anywhere near as scary as before.</p>
-    
-    <p><i>All right! Well, um… What do you think? Friends, then?</i></p>
-    
-    <p>It was kind of…no, really embarrassing to put it like that. I’d have been blushing right then, if I could.</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Wh-what? A mere slime, daring to seek the friendship of the mighty beast feared worldwide as Veldora the Storm Dragon?!</p>
-    
-    <p><i>Oh, um, you don’t have to if you don’t want, but…</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">You fool! You foolish fool!! Who said anything about not wishing it?!</p>
-    
-    <p><i>Oh, no? Okay, so, um…now what?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">—Mmm, indeed… If you insist…I suppose I could consider it…</p>
-    
-    <p>I could feel him sneaking furtive glances at me. It would have been one thing if it had been a cute girl sitting next to me at the movie theater, but it was quite another when it was a death-dealing mythical beast. Not fun. Pretty funny, though.</p>
-    
-    <p><i>Yep. I insist. It’s settled! And if you don’t like it, then watch out, ’cause I’ll never come back!</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">No!—Ah, so be it. I will become your…friend. I do hope you appreciate the gesture!</p>
-    
-    <p>Heh. I wondered whether I could manipulate the other three dragons he mentioned like this. I was made to exploit people, and he was made to be exploited. A perfect match.</p>
-    
-    <p><i>Well, to future times, then!</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Indeed! To future times! …Ah, yes, allow me to give you a name. In exchange, you will give one to us both.</p>
-    
-    <p>Huh? Why? Where’d that come from?</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">It shall chisel into our souls the fact that we are of the same rank. Something similar to the family names the humans use—except my name, for you, will also provide a kind of divine blessing. You are still nameless now, but through this, you will become a full-fledged named monster.</p>
-    
-    <p>Mmmm. So he wanted me to come up with a common name for us to share? And in exchange, I’d get my own name and all the benefits of named- monster status? Better think up something good. I’m terrible at this stuff…</p>
-    
-    <p><i>Well, you said you were a storm dragon, so… I dunno, “Tempest” or something?</i></p>
-    
-    <p>Ugh. Kind of on the nose, I know, but it sounded cool to me, so—</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Perfect! So be it! A wonderful timbre to that title, yes.</p>
-    
-    <p>He liked it?!</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">From this day forward, they will call me Veldora Tempest! And you… You will be called Rimuru. Proclaim to the world that your name is Rimuru Tempest!</p>
-    
-    <p>Thus the name was carved into my soul. Not that it did too much to me. Or my abilities. But somewhere, deep inside my soul, something did change a bit. I suppose the same could be said of Veldora. And that’s how we became friends.</p>
-    
-    <hr style="border: none; border-top: 1px dashed var(--border-glass); width: 80%; margin: 3rem auto;">
-    
-    <p>Well, it was time to get going, I supposed. But before that:</p>
-    
-    <p><i>Hey, so I had something I wanted to ask before I left, but…can’t you do anything about that seal on you?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Not with my powers, no. Someone with a unique skill on the same level as the hero’s would be necessary for there to be even a chance.</p>
-    
-    <p><i>You don’t have any, Veldora?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">I do, but now that I am sealed off, I can access none of them. Telepathy is about all I can manage at the moment.</p>
-    
-    <p>The hero’s Unlimited Imprisonment could hold its target captive in an infinite number of imaginary spaces for all of time. It wasn’t some weak barrier that would allow casual interference with the real world. Looking back, it should have struck me as strange that Telepathy was possible, even. It wasn’t the sort of thing that would break down over time—but given that he could have any contact with the real world, and even exchange messages, perhaps it said more about Veldora. Neither of us noticed this at the time, though.</p>
-    
-    <p><i>Well, here, lemme try something…</i></p>
-    
-    <p>I rolled over to Veldora and tapped my body against him.</p>
-    
-    <span class="sage-voice">Invoking unique skill Predator to consume unique skill Unlimited Imprisonment… Failed.</span>
-    
-    <p>I figured as much, but no, I certainly wasn’t hero caliber. With a dazzling light, my unique skill tried to do its work but weakly bounced off without any further comment. I thought it might have made a small rip, but that was all. The barrier would repair itself shortly, no doubt. I was hoping that unique skill on unique skill would result in something, but it didn’t. Was there anything I could do, though? Something…</p>
-    
-    <span class="sage-voice">Received. Partial Analysis of unique skill Unlimited Imprisonment complete. Reporting a potential escape route.<br><br>
-    The chance of escaping in spiritual form is one percent.<br><br>
-    If a spiritual receptacle is prepared for the target on the outside to aid in the transition, the success rate is three percent. This process is equivalent to transmigration. If the target is poorly compatible with the receptacle, he will lose all memories and abilities.<br><br>
-    This concludes the report on potential escape routes.
-    </span>
-    
-    <p>—Hmm. Kind of low numbers, it sounds like. Unlimited Imprisonment looked like nothing more than a transparent membrane from my perspective…but physical damage did nothing against it? Maybe it had some kind of insurmountable defense attached to it, for all I knew.</p>
-    
-    <p><i>Hey, did you lay any damage on this hero at all? Or vice versa?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Ah, I am glad you asked! Most of my attacks were evaded, but I did land several direct hits…which, I regret, had no effect on her. Death-Calling Wind, Dark Lightning, even Storm of Destruction had no effect, despite being completely unavoidable. A total loss… All I could do was laugh!</p>
-    
-    <p>Veldora then accentuated the point with a loud, hearty guffaw. It sounded as though you could also use this Unlimited Imprisonment skill to cover your own body, making a shield to protect from external attack. Pretty handy thing to have around. This hero was starting to sound downright omnipotent. Between that and Absolute Severance, she was all but invincible, wasn’t she? I really wouldn’t want to run into her…but then, I wouldn’t have to. I would have liked to assume she had died in the ensuing three hundred years, at least. Either way, she was one tough character.</p>
-    
-    <p>So if I was going to get him out of here, it would be through transferring his consciousness into a new body, huh?</p>
-    
-    <p><i>I guess I need some kind of receptacle to get you out of here. Even if it’s in spirit form only, it sounds like it oughta be possible…</i></p>
-    
-    <p>No point telling him what kind of odds he had to go on. I’d just be hurting Veldora further if I dampened his spirits.</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Mm? There is a way out of here?! Indeed… I feel my magical force will exhaust itself by no later than a hundred years from now. My magic continues to flow out of me, even now.</p>
-    
-    <p><i>Yeah? So that’s why there’s such a concentration of it around here…</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Indeed. Even high-class monsters would not dare approach. You saw how there were no weeds on the ground? The sort of plants that can thrive in this area are very rare indeed!</p>
-    
-    <p>Right. I recalled all the hipokute herbs I’d churned through over my short life. It was that valuable, huh?</p>
-    
-    <p><i>Yeah, so…you wanna try escaping, maybe? If I had the right receptacle, I think that’d help our chances a fair amount… Do you know what I’d need, though?</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">…Indeed, even if I escaped in spiritual form only, it would be quite difficult to regather magic and form my core once more. Your creating a small tear in the prison helped my chances immensely, no doubt. As for that receptacle—the new core, if you will—if you can bring one to me, all I’d have to do is traverse myself over to it. Transmigration, I suppose…</p>
-    
-    <p>Yow! And here I thought he was a little slow. He knew exactly what I was getting at, didn’t he? The exact same conclusion the Sage had made.</p>
-    
-    <p><i>Pretty much, yeah. If it’s something I can get on this side, I could look for it for you.</i></p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Hmm… To tell the truth, I do not need any core at all… You can keep a secret, I trust? As I said, I am both unique and the most perfect of my kind. A fully unique creation, one that takes purely spiritual form. I have no particular attachment to this body. It is merely the faith of those who live around me that forms the shape you see.</p>
-    
-    <p>There he went again. Spouting off complete nonsense. As far as I could piece together in the ensuing conversation, the basic idea went like this: Using his consciousness alone, he could gather magicules toward him to form a physical body. Said body was currently being held in this prison, but that prison also prevented his will from collecting the magic he needed. Could he escape in consciousness form alone? No, because he needed some kind of receptacle. If he simply burst out in spirit form, his essence would scatter to the winds like the magic itself, erasing his very existence. This would result in the birth of a new storm dragon, somehow, somewhere—I didn’t care about the details by this point. But to sum up, maybe he could escape, but if he did, he’d wind up being something else. It wouldn’t matter to him.</p>
-    
-    <p>So much for that. But what if I used Predator to consume Veldora himself? I could either analyze him inside my stomach, or isolate him and annul the effect of Unlimited Imprisonment, and he’d be out. Would that work?</p>
-    
-    <span class="sage-voice">Received: It is possible to store the target Veldora in your stomach via the unique skill Predator.</span>
-    
-    <p>Really…? In that case, if I could convince him of it, we could get going. If I couldn’t, he’d have another century of isolation before he was reduced to nonexistence. So I spent a few moments explaining the Predator skill to Veldora, and what I wanted to do with it. It’d be impossible from the get-go without the Sage’s help, but…</p>
-    
-    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Mwah-hah-hah-hah-hah! Fascinating! Please, go ahead. I leave myself at your mercy!</p>
-    
-    <p><i>You’re that ready to believe me?</i></p>
-`;
         // Volume 1 Illustrations to be displayed on the Chapter List page
         const VOLUME_1_ILLUSTRATIONS = `
             <div style="text-align: center; margin-bottom: 2rem;">
@@ -1225,17 +987,16 @@ const CHAPTER_1_CONTENT = `
         const appData = {
             volumes: [
                 // That Time I Reincarnated as a Slime
-                { id: 1, title: "That Time I Reincarnated as a Slime", coverUrl: "https://i.imgur.com/2R8gdqp.jpeg", chapterCount: 5, preview: "The story of Satoru Mikami's reincarnation as the most powerful slime." },
+                { id: 1, title: "That Time I Reincarnated as a Slime", coverUrl: "https://i.imgur.com/2R8gdqp.jpeg", chapterCount: 4, preview: "The story of Satoru Mikami's reincarnation as the most powerful slime." },
                 // Renamed 'Mune' to 'Re:Zero'
                 { id: 50, title: "Re:Zero - Starting Life in Another World", coverUrl: "https://placehold.co/180x280/ffffff?text=RE:ZERO", chapterCount: 0, preview: "A placeholder for the new series, Re:Zero." },
             ],
-            // Chapter 1 Part 4 has been added
+            // Chapter 1 Part 3 has been added
             chapters: {
                 'v1p0': { title: "Prologue: Death and Reincarnation", text: PROLOGUE_CONTENT, volumeId: 1, chapterIndex: 0 }, 
                 'v1c1': { title: "Chapter 1: My First Friend", text: CHAPTER_1_CONTENT, volumeId: 1, chapterIndex: 1 },
                 'v1c1p2': { title: "Chapter 1: My First Friend (Part 2)", text: CHAPTER_1_PART_2_CONTENT, volumeId: 1, chapterIndex: 2 },
                 'v1c1p3': { title: "Chapter 1: My First Friend (Part 3)", text: CHAPTER_1_PART_3_CONTENT, volumeId: 1, chapterIndex: 3 },
-                'v1c1p4': { title: "Chapter 1: My First Friend (Part 4)", text: CHAPTER_1_PART_4_CONTENT, volumeId: 1, chapterIndex: 4 },
             },
             // 'characters' data has been REMOVED.
         };
@@ -1291,10 +1052,7 @@ const CHAPTER_1_CONTENT = `
         }
 
         // --- NAVIGATION & ROUTING ---
-        function navigate(page, data = null) { // <--- START of the new block to paste
-            // NEW: Reset reader mode on every navigation
-            document.body.classList.remove('reader-mode');
-
+        function navigate(page, data = null) {
             currentPage = page;
             app.innerHTML = '';
             navBar.style.display = (page === 'home') ? 'none' : 'flex';
@@ -1310,14 +1068,11 @@ const CHAPTER_1_CONTENT = `
             if (page === 'home') return renderHomeScreen();
             if (page === 'volumes') return renderVolumesScreen();
             if (page === 'chapters' && data && data.volumeId) return renderChapterList(data.volumeId);
-            if (page === 'reader' && data && data.chapterKey) {
-                 // NEW: Add reader-mode class to body for full-screen styles
-                document.body.classList.add('reader-mode');
-                return renderReaderScreen(data.chapterKey);
-            }
+            if (page === 'reader' && data && data.chapterKey) return renderReaderScreen(data.chapterKey);
             // Removed characters screen route
             if (page === 'settings') return renderSettingsScreen();
-        } // <--- END of the new block to paste
+        }
+
         // --- RENDER FUNCTIONS ---
 
         function renderHomeScreen() {
@@ -1434,15 +1189,6 @@ const CHAPTER_1_CONTENT = `
                 </div>
                 
                 <div class="reader-nav-buttons">
-                    <!-- NEW: Scroll Up Button -->
-                    <button class="reader-nav-btn" onclick="scrollPage(-1)">
-                        &#9650; <!-- Up Arrow -->
-                    </button>
-                    <!-- NEW: Scroll Down Button -->
-                    <button class="reader-nav-btn" onclick="scrollPage(1)">
-                        &#9660; <!-- Down Arrow -->
-                    </button>
-
                     <button class="reader-nav-btn" onclick="goToPreviousChapter()">
                         &#9664; <!-- Left Arrow -->
                     </button>
@@ -1450,6 +1196,7 @@ const CHAPTER_1_CONTENT = `
                         &#9654; <!-- Right Arrow -->
                     </button>
                 </div>
+            `;
 
             updateReaderStyle();
             
@@ -1561,26 +1308,8 @@ const CHAPTER_1_CONTENT = `
             }
         }
 
-}
-    }
-
-    // --- NEW: Reader Scroll Functions ---  <-- PASTE THE NEW JS BLOCK HERE
-    function scrollPage(direction) {
-        const panel = document.getElementById('reading-panel');
-        if (!panel) return;
-
-        // Scroll by 85% of the visible height for a pleasant "page turn" feel
-        const scrollAmount = panel.clientHeight * 0.85;
-        
-        panel.scrollBy({
-            top: scrollAmount * direction, // direction will be 1 (down) or -1 (up)
-            left: 0,
-            behavior: 'smooth' // This makes the scroll animated and not instant
-        });
-    }
-
-    // --- INITIALIZATION ---
-    function initApp() {
+        // --- INITIALIZATION ---
+        function initApp() {
             loadSettings();
 
             // Set up Nav Bar listeners
