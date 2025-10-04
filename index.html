@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVELVERSE</title>
+    <!-- Importing a fantasy-appropriate font -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-ui: 'Inter', sans-serif;
+            --font-reading: 'Merriweather', serif;
+            --color-primary: #8a2be2; /* Blue Violet / Neon Purple */
+            --color-accent: #00ffff; /* Neon Cyan */
+            --color-gradient-start: #100b1a; /* Very dark purple/blue */
+            --color-gradient-end: #1a0f30; /* Darker space purple */
+            --glow-filter: drop_shadow(0 0 4px var(--color-accent)) drop-shadow(0 0 8px var(--color-primary));
+            --blur: 10px;
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
+
+            /* Dark Mode Defaults */
+            --color-text: #e0e7ff;
+            --color-background: var(--color-gradient-start);
+            --color-panel: #1a202c;
+            --color-text-dim: #9ca3af;
+        }
+
+        .light-mode {
+            --color-text: #1f2937;
+            --color-background: #f0f4f8;
+            --color-panel: #ffffff;
+            --color-text-dim: #6b7280;
+            --color-gradient-start: #e0e7ff; /* Light Blue */
+            --color-gradient-end: #ffffff;
+            --glow-filter: none;
+            --bg-glass: rgba(240, 244, 248, 0.8);
+            --border-glass: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Base Styles & Transitions */
+        body {
+            font-family: var(--font-ui);
+            margin: 0;
+            padding: 0;
+            color: var(--color-text);
+            /* Updated background for deeper aesthetic */
+            background: radial-gradient(circle at top left, var(--color-gradient-end) 0%, var(--color-gradient-start) 70%);
+            min-height: 100vh;
+            transition: all 0.5s ease;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        #app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        /* Glassmorphism Panel Base */
+        .glass-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(var(--blur));
+            border: 1px solid var(--border-glass);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            padding: 1.5rem;
+            margin-bottom: 20px;
+            transition: background 0.5s ease;
+        }
+        
+        /* Aesthetic formatting for the system voice */
+        .sage-voice {
+            display: block;
+            text-align: center;
+            font-family: var(--font-ui);
+            font-style: italic;
+            font-weight: 700;
+            color: var(--color-accent);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+            margin: 1.5rem 0;
+            border-top: 1px solid var(--border-glass);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 10px 0;
+        }
+
+
+        /* --- Header/Navigation --- */
+        #nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60px;
+            padding: 0 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            background: var(--color-panel);
+            transition: background 0.5s ease, opacity 0.3s;
+        }
+
+        .nav-item {
+            font-weight: 700;
+            color: var(--color-text-dim);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: color 0.3s, background 0.3s;
+        }
+
+        .nav-item:hover {
+            color: var(--color-text);
+            background: rgba(var(--color-primary), 0.1);
+        }
+        
+        .nav-item.active {
+            color: var(--color-accent);
+            text-shadow: 0 0 5px var(--color-accent);
+        }
+
+        /* --- Custom Button Style (Neon/Glow) --- */
+        .neon-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            margin: 1rem 0;
+            border: 2px solid var(--color-primary);
+            border-radius: 9999px;
+            background: none;
+            color: var(--color-text);
+            font-size: 1.25rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 5px var(--color-primary), inset 0 0 5px var(--color-primary);
+            transition: all 0.3s ease;
+            filter: var(--glow-filter);
+        }
+
+        .neon-button:hover {
+            background: var(--color-primary);
+            color: var(--color-panel); /* Text color in dark mode */
+            box-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-primary), 0 0 30px var(--color-accent);
+            transform: scale(1.05);
+            filter: none;
+        }
+        
+        /* --- Home Screen --- */
+        #home-screen {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            
+            /* Enhanced background aesthetic */
+            background-image: 
+                radial-gradient(circle at 70% 30%, rgba(138, 43, 226, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .logo-text {
+            font-family: var(--font-reading);
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            /* Triple shadow for intense neon glow */
+            text-shadow: 
+                0 0 10px rgba(0, 255, 255, 0.8), 
+                0 0 20px rgba(138, 43, 226, 0.8),
+                0 0 30px rgba(0, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        .hero-image {
+            width: 80%;
+            max-width: 450px;
+            height: auto;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            /* Framed image with a slight glow */
+            border: 4px solid var(--color-primary);
+            box-shadow: 0 0 20px var(--color-primary);
+            transition: transform 0.3s ease;
+        }
+        .hero-image:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px var(--color-accent);
+        }
+
+        /* --- Novel List Grid (formerly Volumes) --- */
+        #volumes-screen, #characters-screen {
+            padding-top: 80px; /* Space for fixed navbar */
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .volume-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .volume-card {
+            cursor: pointer;
+            text-align: center;
+            padding: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: var(--bg-glass);
+            border-radius: 1rem;
+            border: 1px solid var(--border-glass);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .volume-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 10px var(--color-accent);
+        }
+
+        .volume-cover {
+            width: 100%;
+            max-width: 180px;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            margin: 0 auto 10px auto;
+        }
+        
+        /* --- Chapter List --- */
+        #chapters-list {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .chapter-item {
+            cursor: pointer;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0.75rem;
+            background: var(--bg-glass);
+            border-left: 5px solid var(--color-primary);
+            transition: all 0.2s;
+        }
+
+        .chapter-item:hover {
+            background: rgba(var(--color-primary), 0.1);
+            transform: translateX(5px);
+        }
+
+        .chapter-item h4 {
+            margin: 0 0 5px 0;
+            color: var(--color-accent);
+        }
+
+        .chapter-item p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--color-text-dim);
+        }
+
+        /* --- Reader Interface --- */
+        #reader-screen {
+            padding-top: 80px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        #reading-panel {
+            font-family: var(--font-reading);
+            line-height: 1.8;
+            padding: 2rem;
+            min-height: 60vh;
+            background: var(--color-panel);
+            color: var(--color-text);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            transition: background 0.5s ease, color 0.5s ease;
+            white-space: normal;
+            overflow-y: scroll;
+            position: relative;
+        }
+
+        #reading-panel p {
+            margin-bottom: 1.2rem;
+            text-indent: 1.5em; /* Standard novel indentation */
+            text-align: justify; /* Justifies text for a book-like feel */
+        }
+
+        #reading-panel p:first-child {
+            text-indent: 0; /* No indent on first paragraph */
+        }
+        
+        /* Image within Reader Panel for illustrations */
+        #reading-panel img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Page-flip/Fade Transition Effect */
+        #reading-panel.page-fade {
+            animation: fadein 0.8s ease-out;
+        }
+        @keyframes fadein {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #reader-content {
+            transition: font-size 0.3s, line-height 0.3s;
+        }
+
+        /* Floating Nav Buttons */
+        .reader-nav-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 900;
+            display: flex;
+            gap: 10px;
+        }
+
+        .reader-nav-btn {
+            padding: 15px;
+            background: var(--color-primary);
+            color: var(--color-text);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--color-primary);
+            transition: all 0.3s;
+            filter: var(--glow-filter);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reader-nav-btn:hover {
+            background: var(--color-accent);
+            box-shadow: 0 0 15px var(--color-accent);
+            transform: scale(1.1);
+            filter: none;
+        }
+
+        /* Progress Bar */
+        #progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--color-accent);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        /* Customization Panel */
+        #settings-panel {
+            max-width: 600px;
+            width: 100%;
+            padding-top: 80px;
+        }
+
+        .setting-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .setting-group label {
+            font-weight: bold;
+        }
+
+        /* --- Floating Slime Icon (Decorative) --- */
+        .slime-orb {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #00ffff, #00bfff);
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00bfff, 0 0 30px #00ffff;
+            animation: float 6s ease-in-out infinite, pulse 2s infinite alternate;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        #slime-1 { top: 10%; left: 5%; animation-delay: 0s; }
+        #slime-2 { top: 70%; right: 10%; animation-delay: 2s; width: 30px; height: 30px; }
+        #slime-3 { bottom: 5%; left: 40%; animation-delay: 4s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(10px, -20px); }
+            100% { transform: translate(0, 0); }
+        }
+        @keyframes pulse {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .logo-text { font-size: 2.5rem; }
+            .neon-button { padding: 0.75rem 2rem; font-size: 1rem; }
+            .volume-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+            .volume-cover { max-width: 100%; }
+            .reader-nav-buttons { bottom: 10px; right: 10px; }
+            .reader-nav-btn { width: 45px; height: 45px; padding: 10px; }
+            #nav-bar { justify-content: space-around; padding: 0 10px; }
+            .nav-item { padding: 0.5rem 0.5rem; }
+            #reading-panel { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Decorative Slime Orbs -->
+    <div class="slime-orb" id="slime-1"></div>
+    <div class="slime-orb" id="slime-2"></div>
+    <div class="slime-orb" id="slime-3"></div>
+
+    <!-- Navigation Bar: Removed 'Characters' -->
+    <div id="nav-bar" style="display: none;">
+        <span class="nav-item" data-page="home">Home</span>
+        <span class="nav-item active" data-page="volumes">Novel List</span>
+        <span class="nav-item" data-page="settings">Settings</span>
+    </div>
+
+    <div id="app">
+        <!-- Content will be rendered here by JavaScript -->
+    </div>
+
+    <script>
+        // Content for the Prologue (Formatted with <p> and .sage-voice for aesthetics)
+        const PROLOGUE_CONTENT = `
+
+    <p>It was just your typical kind of life.
+I graduated from college, landed a job at a sort-of-big general contractor outfit, and with my older brother taking care of our parents for me, I was currently enjoying all the myriad benefits of the bachelor-pad life.
+Age thirty-seven. No significant other.</p>
+
+<p>I wasn’t exactly short or frumpy or hideous or anything.
+But when it came to the opposite sex, apparently I had nothing to offer.
+I’d made efforts along those lines, with varying degrees of dedication, but by the third rejection, something fizzled out within me.
+Besides— really, at this age, I was kinda past the point where a girlfriend needed to be my main focus.
+Work kept me busy enough. Plus, it wasn’t like I was gonna die without one.</p>
+
+<p>…I’m not making excuses, all right?
+It’s just that I started thinking…</p>
+
+<p>“Oh, hello, sir! Sorry we’re late!”</p>
+
+<p>There he was, walking toward me, bursting with all that youthful energy of his.
+He and the beautiful woman next to him. His name was Tamura, one of the guys who worked under me, and she was Sawatari, the front-desk lady and pretty much the “it” girl around the office.</p>
+
+<p>These bums asked to see me because they were getting married and wanted my advice.
+In other words, this meeting was the whole reason I was brooding over why I was such a failure at personal relationships.
+I was leaning against a telephone pole at the intersection where we’d agreed to meet after work, thinking to myself.</p>
+
+<p>“Nah.”
+I nodded a greeting at Sawatari and asked, “What’d you want to talk about?”</p>
+
+<p>“Oh, good to meet you. My name’s Miho Sawatari. I’ve seen you at work a lot, but…um, I guess this is the first time I’ve spoken to you, huh? It makes me kind of nervous, somehow.”</p>
+
+<p><i>I’m the one who should be nervous, lady!</i> my mind griped to itself.
+<i>It’s not like I’m any good at speaking to women.
+How about a little sympathy here?</i></p>
+
+<p>Any way you looked at it, I was the wrong person to ask.
+I knew nothing about love. They were doing this just to spite me—I was sure of it.
+Pretty sure, anyway.</p>
+
+<p>“Oh, there’s nothing to be nervous about,” I replied.
+“Satoru Mikami. It’s good to meet you, Ms. Sawatari…although you’re famous enough around the office that you hardly need to even introduce yourself, huh? Tamura and I went to the same college, and we kind a hit it off during his training period, so that’s how we know each other.”</p>
+
+<p>“Famous? Oof! Not famous in a weird way, I hope?”</p>
+
+<p>“Oh, y’know. I hear stories about you dating Kameyama or messin’ around with Mr. Kihara in management…”</p>
+
+<p>Somehow, I decided that picking on her would be a good idea.
+I just meant it as a passing joke, but it made Sawatari’s face turn a bright shade of red, her eyes watering up a bit.
+It was cute, in a way. People were always telling me to tone that stuff down—that I needed to consider people’s feelings more or, if not that, at least make it funnier—but I couldn’t help myself.
+So mark that down as another failure. Maybe I really do have a crap personality.</p>
+
+<p>Tamura took that chance to intervene, giving Sawatari a pat on the shoulder.
+<i>Dammit, Tamura! So blessed with the natural charm you need to live a decent life… I wish people like you would just explode!</i></p>
+
+<p>“Aw, stop being mean to her,” he admonished with an effortless smile.
+“And don’t worry, Miho, he’s just having a little fun with you.”</p>
+
+<p>Cool, refreshing, and completely guileless—Tamura was impossible to hate.
+He was still just twenty-eight, quite a bit younger than I was, but we got on well nonetheless.
+I probably owed him at least a few congratulations…</p>
+
+<p>“Hah, sorry,” I said, figuring there was no reason to let my jealousy devour me.
+“I can’t help but needle people like that sometimes. But no point standing here on the sidewalk. Wanna get something to eat while we talk?”</p>
+
+<p>“Aaaahhh!!”</p>
+
+<p>Screams.
+Chaos. <i>What is—What’s going on?!</i></p>
+
+<p>“Move! I’ll kill you!!”</p>
+
+<p>I turned around to find a man sprinting toward me, a backpack in one hand and a kitchen knife in the other.
+I could hear shrieking. He was coming my way. With a knife. A knife?
+And at the other end of it…</p>
+
+<p>“Tamuraaaa!”</p>
+
+<p>The moment I shoved Tamura aside, I felt a burning pain run across my back.
+My body balled up as it collapsed to the ground, trying to withstand the shock.
+I couldn’t tell what had happened. I wanted to move, but I couldn’t.</p>
+
+<p>“Get the hell outta my way!”
+the man shouted as he ran off. I watched him go and then checked to see how my companions were.
+The suddenness of it all had reduced Tamura to a stupor, but he was unhurt.
+That was good.</p>
+
+<p>But, man, was my back burning. So hot. Beyond anything I’d describe as pain. What’s up with that?
+It’s too hot… Gimme a break.</p>
+
+<span class="sage-voice">Confirmed. Resist Heat…successfully acquired.</span>
+
+<p>Did I… Did I just get stabbed?</p>
+
+<p>So I’m gonna die from a stabbing?
+Holy crap…</p>
+
+<span class="sage-voice">Confirmed. Resist Piercing Weapon…successfully acquired. Following up with Resist Melee Attack… Successfully acquired.</span>
+
+<p>“M-Mr. Mikami, you’re bleeding…You won’t stop bleeding!”</p>
+
+<p>I really didn’t need to hear that right now.
+Was that Tamura? I thought I heard some kind of weird voice. If it was Tamura, then so be it.
+<i>I’m bleeding? Well, duh. I’m only human. If you stab me, I’ll probably bleed all over you, yes.</i></p>
+
+<p>Damn, this was starting to hurt, though…</p>
+
+<span class="sage-voice">Confirmed.
+Cancel Pain…successfully acquired.</span>
+
+<p>Um… Well, shit. All this pain and panic was starting to screw around with my consciousness.</p>
+
+<p>“T-Tamura… Shut up. It… It’s nothing big, all right? Quit worrying…”</p>
+
+<p>“Mr. Mikami, you’re… The blood…” Tamura tried to hold me up, face drained of color and looking about ready to break into sobs.
+So much for that bravado from two minutes ago. I tried to see how Sawatari was doing, but my vision was too fogged up to manage it.</p>
+
+<p>Now the burning feeling on my back was starting to fizzle out.
+Instead, an intense, frigid cold was attacking me from head to toe.
+<i>That… That’s probably bad… People die once they bleed too much, don’t they?</i></p>
+
+<span class="sage-voice">Confirmed.
+Constructing a blood-free body… Successful.</span>
+
+<p>Hey, what’re you talking about? I can’t hear you too well…</p>
+
+<p>I tried to speak. And failed.</p>
+
+<p><i>Shit.
+I think this might really be it…</i> Like, the pain and the heat were pretty well gone by now.
+It was just cold. Cold as hell. I felt as if I was gonna freeze in place.
+Who knew dying could keep you so damn busy?</p>
+
+<hr style="border: none; border-top: 3px double var(--color-accent); width: 50%; margin: 3rem auto; box-shadow: 0 0 5px var(--color-accent);">
+
+<span class="sage-voice">Confirmed. Resist Cold…successfully acquired.
+Combined with the previously acquired Resist Heat, the skill has progressed to Resist Temperature.</span>
+
+<p>Just then, what remained of my increasingly oxygen-deprived brain cells chanced upon a flash of brilliance.
+<i>Oh, craaaaap, the files on my hard drive!</i></p>
+
+<p>I summoned up my remaining wells of strength, striving to relay the final regret I had left in life.</p>
+
+<p>“Tamuraaa! If… If anything bad happens to me…take my computer, okay? Put it in the bathtub, turn it on, and just fry everything on the disk for me, man…”</p>
+
+<span class="sage-voice">Confirmed.
+Electricity-based deletion of data… Cannot execute. More information required. Substituting with Resist Electricity… Successfully acquired.</span>
+
+<p>It took a moment for my plea to register with Tamura.
+He gave me a blank stare. Then he snickered.</p>
+
+<p>“Ha-ha! That’s just like you, isn’t it?”</p>
+
+<p>Even if it was just a snicker, it beat having to depart this plane of existence with a grown man blubbering on top of me.
+I’d take it.</p>
+
+<p>“All I wanted was to show Sawatari off to you, too…,” he continued. “Pfft…” <i>Hah. I knew it.
+That bastard.</i></p>
+
+<p>“It’s fine, okay? Make her a happy woman.” I wrung out the last bit of strength my body had to offer.
+“Just kill my PC for me…”</p>
+
+<div style="height: 2rem;"></div>
+
+<p>It was just your typical kind of life.
+I graduated from college, landed a job at a sort-of-big general contractor outfit, and with my older brother taking care of our parents for me, I was currently enjoying all the myriad benefits of the bachelor-pad life.
+<b>And I was a virgin.</b></p>
+
+<p><i>Imagine that. Floating off to meet my maker in completely unused condition… My manhood was probably crying its single eye out right then.
+Sorry I couldn’t make you a real grown-up. If there’s such a thing as reincarnation, I’m gonna go on the attack next time—I promise.
+I’ll hit up everyone I see, stalking my prey before I go in for the kill… Okay, not like that, but…</i></p>
+
+<span class="sage-voice">Confirmed.
+Unique skill “Predator”…successfully acquired.</span>
+
+<p>I mean, here I was, lookin’ at forty without ever losing my virginity.
+Like an old sage meditating in the mountains. Another few years, and I probably could’ve been the great sage of celibacy.
+Not the road I wanted to take in life, but there you go.</p>
+
+<span class="sage-voice">Confirmed. Extra skill “Sage”…successfully acquired.
+Evolving extra skill “Sage” into unique skill “Great Sage”… Successful.</span>
+
+<p><i>…Hey, someone mind telling me who’s talking?
+What do you mean, “unique skill ‘Great Sage’”? Someone tryin’ to start something with me? There’s nothing “unique” about that!
+If you think I’m finding that funny, I’m not! That’s just mean, man…</i></p>
+
+<p>Before I could continue down that train of thought, however, I fell asleep.</p>
+
+<div style="text-align: center; border-top: 1px dashed var(--border-glass); margin-top: 5rem; padding-top: 2rem;">
+    <p style="font-style: italic; margin-top: 1rem; font-size: 1.2em; color: var(--color-accent); text-shadow: 0 0 3px var(--color-accent);">Weird how death’s nowhere near as lonely as I thought it’d be.</p>
+    <p style="font-style: italic; font-size: 0.9em; color: var(--color-text-dim);">That was the last thought I had on the mortal plane.</p>
+</div>
+`;
+const CHAPTER_1_CONTENT = `
+    <p>It was dark. Too dark to see anything. Where was I? What even happened, for that matter? Someone was picking on me for being a celibate sage or something, and then…</p>
+
+    <p>That was enough to jump-start my mind again. My name was Satoru Mikami. Just another thirty-seven-year-old in a suit. And when I shoved my coworker aside on the street, some random maniac stabbed me. Good. I remembered all of that. Which meant I must be fine. No need for panic. That wasn’t like me anyway. I was known for having a cool head. The last time I panicked, it was grade school and all I did was wet my pants, just a little bit. I tried looking at my surroundings. Then I noticed—I couldn’t open my eyes. Odd, I thought as I tried to rub them and my arms didn’t respond. And more to the point, Where’s my head, anyway?</p>
+
+    <p>This was getting confusing. Like, whoa. Wait a sec. I needed some time to deal with this. Whenever I start freaking out, I always find it helpful to sit still and start counting prime numbers until I calm down. Let’s try that. One, two, three— Wait, one doesn’t count as a prime number, does it? Ugh… Now wasn’t the time for this. I couldn’t let myself think about this stupid crap. This was bad, wasn’t it? Like, what’s going on, here?! Was I…like, past the point of no return, unless I did something?</p>
+    
+    <p>Panicking, I checked to see whether I was hurt anywhere. I didn’t seem to be. Physically, I felt terrific. No cold, no heat—perfectly comfortable. That, at least, came as a relief. Now for my hands and legs… Oop. Not so hot there. No response from any of my limbs. What’s up with that? Getting stabbed in the back wouldn’t force the doctors to amputate all my extremities, would it? I’d kind of like those back.</p>
+    
+    <p>Then there was the whole “can’t open my eyes” thing. I was in a world of darkness, where I couldn’t see a thing. An anxiety like none I’d ever felt before began welling up in my mind. Am I…in a coma or something? I was conscious, certainly, but had I gotten detached from my central nervous system, maybe?</p>
+    
+    <p>Oh, man, anything but that! I mean, think about it. When you throw a guy into a dark, enclosed space, it takes practically no time at all for him to go insane. And that was exactly where I was—and I couldn’t even die in peace any longer, it looked like. If insanity was all that waited for me here, that was enough to take the wind out of anybody’s sails.</p>
+    
+    <p>Just then, I felt something brush against my body. Hmm? What’s that? I focused all of my senses on this unknown sensation. It felt like grass against what might have been the side of my stomach. Concentrating on the sensations, I slowly began sussing out what was around me. I could feel the pointy edges of some nearby leaves prick against my body.</p>
+    
+    <p>It made me a little happy, really. I was in total darkness a moment ago, but now I had my sense of touch back, at least. It made me so overjoyed that I made a beeline for the grass, and— Creep. I could feel my body sliding flat against the ground. I… I moved?! This, at least, was clear evidence that I was not on any kind of hospital bed. The feeling beneath my stomach (?) took the form of hard, jagged rock. Hmm. It still didn’t make much sense to me, but I appeared to be outdoors.</p>
+    
+    <p>So I headed toward the grass, keeping my senses keen against what I touched, although I still wasn’t quite clear on where my head was. There was nothing to smell; I wasn’t sure whether I had that sense or not. Really, I had no idea what I was shaped like. I felt…flowing. Jellylike. Kind of like a certain fantasy monster I was well familiar with. In fact, the idea had been running through my head for a while now.</p>
+    
+    <p>…No. Come on. That’s just silly. Anything but that. I decided to leave that anxiety-inducing prospect behind for the time being and instead try out the final, untested one of my five human senses. Not that I knew where my mouth was. So…now what? Suddenly, a voice ran across my mind.</p>
+
+    <div style="text-indent: 0; text-align: center; margin: 1.5rem 0; font-style: italic; color: var(--color-accent);">
+        <p>Use unique skill “Predator”?</p>
+        <p style="margin-top: 0.5rem;">Yes No</p>
+    </div>
+
+    <p>Huh? Wh-what? Unique skill “Predator”? And what was up with that voice? I thought I heard something weird when I was talking with Tamura earlier. That wasn’t just me imagining things? Was someone there? Something didn’t seem quite right with it. It wasn’t that I thought I had a visitor, so much as…well, as I just had words floating into my mind. Cold, unfeeling words, like a computer-generated voice.</p>
+    
+    <p>Let’s go with no for now. No response. I waited a while for one, but no further voices came. It appeared there wouldn’t be a second question. Did I make the wrong choice? Was this the kind of game where you got stuck if you didn’t start giving “yes” answers? I was assuming the question would just repeat forever until I said yes, like any normal RPG. Guess not.</p>
+    
+    <p>Kind of rude of that voice, though. Showing up, asking a simple question, then disappearing forever. It was nice hearing someone for a change, but…the hell, man? Oh well. Let’s go on with what I was trying before. My sense of taste. I moved toward the grass I felt earlier. As it brushed up against me, I leaned forward, feeling the whole of my weight settle over the field. It was definitely grass of some sort. Once I was sure of that, I suddenly realized that the area where the plants met my body was starting to melt. I thought it was myself melting at first, but apparently it was only the grass. And with that, I could now tell that the components of the plant life beneath me were being taken into my body.</p>
+    
+    <p>So that was how it worked? Instead of having a mouth to eat with, I just ingested plant matter with my whole body? It sure didn’t taste like anything. From this, there were a few conclusions I could sensibly make. First, I was no longer human. That was a given by now. So did I really get stabbed to death? It didn’t seem like much of an open question at this point. It’d also explain why I was resting on a rocky patch of grass instead of in a hospital room.</p>
+    
+    <p>What happened to Tamura? To Sawatari? Did he scramble my hard drive for me, like he promised? I was full of questions—but also a suspicion that, by this point, none of them really mattered anymore. I had to think about what came next. So…is this it? Am I really a… You know… With the kind of tactile feedback I’m getting at the moment… I trained my senses back inside my body. It responded with a rhythmic motion. Boing. Sproing. Slowly, inside the total darkness, I took the time to ascertain the exact boundaries of my form.</p>
+    
+    <p>…Heavens! I used to be such a handsome, attractive man, and now I’m so…fluid! So aerodynamic! …Yeah, right! You think I’d accept this just like that?!</p>
+    
+    <p>As far as I could feel, there was no longer any doubting it. I could picture it in my mind. I mean…what else could it be? Not like I had a prejudice against it. Hell, it was kinda cute, if anything! But was it for me, though? If you took a poll, I think at least nine out of ten people would have the same answer. I would just have to accept it, though. Accept the fact that my “soul,” or whatever you want to call it, had been reborn inside a monster from another world. The odds of such a thing seemed astronomically low to me, but…</p>
+    
+    <p>But I’d been reborn. As a slime.</p>
+`;
+// Content for Chapter 1 Part 2
+        const CHAPTER_1_PART_2_CONTENT = `
+    <h3 style="text-align: center; margin-top: 3rem; margin-bottom: 2rem; color: var(--color-accent);">MY FIRST FRIEND(II)</h3>
+    <p>Munch, munch. Munch, munch, munch, munch. I just snacked on some grass. Why did I do that? Well, why not? Not like I had anything else to do!</p>
+
+    <p>It had been a few days or so since I was pretty much forced to accept the fact that I was now a slime. How many, I wasn’t exactly clear on. The passage of time is tough to pick up on when all you can see is total darkness. One discovery I had stumbled upon over the past few days was that a slime’s body could be way more useful than at first sniff. I never got hungry, for one, nor did I get tired. Food and sleep, for me, were wholly unnecessary. And I had divined something else, too. I couldn’t be completely sure, but there didn’t seem to be anything else living around here. In terms of danger, I wasn’t sure there was any to speak of. My days were blissfully free of worry.</p>
+
+    <p>Or anything else, really. The whole time, I never heard that voice again. By this point, I wouldn’t have minded a little companionship. But no. It was just me, the grass, and me eating it for lack of much else to do. It was simply a way to kill time. And by this point, I could sense the entire process— my body absorbing the blades, dismantling them internally, sorting through all the components, and storing them away.</p>
+    
+    <p>What it all meant, I couldn’t say. It was starting to frighten me a bit. I needed to do something, or I’d lose my mind. So I kept going through the cycle—absorb, break down, store up. But there was something odd about the process. Elimination never factored into it, somehow. Not even once. Maybe slimes didn’t need to do that. Hell, not like I’d know either way. But where was all this stuff I was ingesting going, then? My senses told me that my form hadn’t changed in any appreciable manner from when I first arrived. So what the hell?</p>
+    
+    <span class="sage-voice">Received. It is being stored in the stomach of the unique skill “Predator.” Current physical space usage is less than one percent.</span>
+    
+    <p>What? Whoa! It speaks! But since when was I using any skills? I thought I answered no back there.</p>
+    
+    <span class="sage-voice">Received. The unique skill “Predator” is not being used. The matter being ingested into your body is set to automatically be stored in your stomach. This can be changed as needed.</span>
+    
+    <p>Oh? Well, nice to see we’re having a real back-and-forth, finally. But back to business. If I use this skill, what happens then?</p>
+    
+    <span class="sage-voice">Received. The unique skill “Predator” chiefly comprises the following five effects:<br><br>
+    <b>Predation:</b> Takes the target into your body. Lesser chance of success if the target has its own consciousness. Can be targeted on organic and inorganic objects, as well as skills and magic.<br><br>
+    <b>Analysis:</b> Analyzes and researches targets taken into your body. Lets you create craftable items. If the required materials are present, allows you to make a copy of the item. Successful Analysis of the casting method allows you to learn the target’s skills and magic.<br><br>
+    <b>Stomach:</b> Stores the Predated target. Can also store materials created via Analysis. Items stored in your stomach are unaffected by time.<br><br>
+    <b>Mimicry:</b> Reproduces the form and skills of absorbed targets. Only available once the target has been Analyzed.<br><br>
+    <b>Isolate:</b> Stores harmful effects incapable of being analyzed, neutralizing them and breaking them down into magical force.</span>
+
+    <p>Um… What? For the first time in a while, I was thrown. That sounded like kind of an incredible ability. Not exactly the kind of thing slimes were known for. At least not the ones I knew. And…hang on. Who was this voice answering my questions, anyway? Was someone there?</p>
+    
+    <span class="sage-voice">Received. This is the effect of the unique skill “Great Sage.” The skill has taken effect, making it more immediately available.</span>
+    
+    <p>A sage, huh…? And here I thought that voice was just screwing with me. Now it was the best partner I had. Hope that keeps up. Hell, anything would have been fine at that point. As long as it helped smooth out the endless solitude I was preparing myself for. For all I knew, this “voice” was something my mind had crafted to keep my marbles intact. It was fine by me. For the first time in ages, I could feel a burden lifting from my heart.</p>
+    
+    <hr style="border: none; border-top: 1px dashed var(--border-glass); width: 80%; margin: 3rem auto;">
+    
+    <p>By my count, it had been ninety days since I was reincarnated as a slime. To be more precise, ninety days, seven hours, thirty-four minutes, and fifty-two seconds. How was I so sure about this? Turned out that was one of the many side effects of evoking that “Great Sage” skill. Holy cats, was that thing helpful. Talk about your best friend in a pinch. Any question that popped to mind, it instantly provided the answer.</p>
+    
+    <p>According to this Sage, it took ninety days for the skill to fully fuse itself with my soul. Normally, it would be unable to provide responses in the form of conversation, but in order to answer my questions, it apparently revamped itself, diverting part of its “World Language” powers to assist me. That’s how it was explained to me, at least. This useful ability—relaying words into my mind—isn’t normally possible. As it explained to me, this “World Language” was heard only when there were great changes to a world or when you either earned or upgraded a skill—something that normally didn’t happen all that often. These skills were obtained only rarely, when the world recognized that you had grown in one way or another. Evolution, meanwhile, was something most people never got to experience in their lives. It was all Greek to me, but if that was how it was, I was willing to accept it.</p>
+    
+    <p>So the Great Sage was answering my questions at the moment, but otherwise it was this totally passive thing. No real sentience or anything. Unless I spoke up, it would never talk to me of its own volition. That was the only real drawback, but tossing words around with someone again was a wonderful feeling, even if it was a one-way street. Although, back in my home world, having a conversation with my own skill might have been considered strange…</p>
+
+    <p>So there I was, still locked in darkness, asking a barrage of questions. One thing the replies confirmed was that yes, I was a slime now. I also found out why I never got hungry or sleepy. The slimes in this world, it turned out, never had to eat if they could keep absorbing the magic particles, or “magicules,” in the air. In less magically abundant regions, I would be obliged to fill up by absorbing monsters or small creatures. Most slimes shied away from areas with low magic presences, but the ones that didn’t were apparently both quite strong and madly vicious. Usually it was the other way around, where a wealth of local magic meant especially strong monsters. In other words, the area I took up residence in was so laden with magic that I didn’t even have to eat.</p>
+    
+    <p>As for the sleep question:</p>
+    
+    <span class="sage-voice">Received. The body of a slime consists of a mass of completely identical cells. Each individual cell may function as a brain cell, a nerve cell, or a muscle cell. Since the operational cells used for thought are rotated in and out at regular intervals, there is no need for you to sleep.</span>
+    
+    <p>This raised the question of where my memories were being held, exactly. Maybe it was kind of like a RAID setup on a computer? That would be close enough, came the response. Considering its lack of personality, the Sage certainly came up with some snappy replies. Speaking of which, the “Great Sage” skill consisted of five effects:</p>
+    
+    <span class="sage-voice">
+    <b>Hasten Thought:</b> Boosts perception speed by a thousand times.<br><br>
+    <b>Analyze and Assess:</b> Analyzes and assesses the target.<br><br>
+    <b>Parallel Operation:</b> Operates on any matter you wish to analyze, separating it from the regular thought process.<br><br>
+    <b>Cast Cancel:</b> Annuls the casting period required when using magic, et cetera.<br><br>
+    <b>All of Creation:</b> Provides full coverage of all unsuppressed matter and phenomena in this world.
+    </span>
+
+    <p>“All of Creation”? So I know about everything, everywhere, with no effort on my part? Score! Or so I thought. It turned out that I could only be told information related to things I’d already heard about—in other words, I needed to recognize and understand a concept before I could grab a full Analysis of it. And the spell thing—did that mean I could instantly use any magic once I learned it? And, like, there was magic in this world and stuff?! The Great Sage replied with a big Yes.</p>
+    
+    <p>Well, once I knew that, I just had to try to learn a few spells myself. I checked with the Sage to see if it could help me cast magic, but that was a no-go. Eh, it was worth a shot. Still, I had another great idea: Could I link the “Predator” Analysis skill with “Great Sage” Parallel Operation?</p>
+    
+    <span class="sage-voice">Received. It is possible to link “Predator” Analysis with “Great Sage” Parallel Operation. Do you wish to link them?<br>Yes No</span>
+    
+    <p>Uh, yeah? Not that I had anything to analyze yet… Wait. Or did I? That grass in my stomach. The stuff I had been eating to pass the time. What was that? Not like I had anything else to do. Let’s give it a try. Off you go, Sage. ……… …… …</p>
+    
+    <span class="sage-voice">Analysis complete.<br><br><b>Hipokute herbs:</b> A type of ingredient used in healing medication. Only thrives in areas blessed with high local magic densities. Fusing its juice with magicules produces recovery medicine. Grinding the blades and fusing them with magicules produces a salve that closes wounds.</span>
+    
+    <p>Wow! That was what I’d been snacking on? Talk about an unexpected windfall. I immediately set out to create some medicine of my very own. The process took place inside my body, so it didn’t really feel much like crafting, but the Analysis took less than a second, and within another three-ish, I had my very first potion. Five minutes, and I could’ve had a hundred. And while I didn’t have anything else to compare it to, using my Great Sage skills to assess them resulted in a “high quality” rating.</p>
+    
+    <p>So there you go. I was happy enough with it, at least. It all went so fast, too. I asked the Sage about it, and it said the process usually took more time than that. Linking it with Parallel Operation must’ve been the right idea, I suppose. To test that theory out, I unlinked it long enough to create a single potion. It took fifty minutes. Damn, that was slow. Looks like I had the foresight to stumble across some mega-compatible skills to combine. Not that I knew what I was doing at all. Some of your garden-variety weeds were also sprouting here and there, but most of the local grasses were hipokute. How ’bout that? So I decided, as a little insurance, to Predate all the herbs I could in the area and turn my stomach into a little recovery-potion factory. I didn’t have much else to occupy my time. It was still pitch black in here.</p>
+    
+    <hr style="border: none; border-top: 1px dashed var(--border-glass); width: 80%; margin: 3rem auto;">
+    
+    <p>There was no doubt about it. I had put my guard down. I had a partner who granted me skills and the ability to engage in (kind of passive) conversation, and I let it get to my head. I suppose that had a lot to do with how for ninety days in a row, I never ran into any other creatures. No danger to my life whatsoever. But either way, I had let my guard down. For an instant, I was like, “Huh?” I felt a sudden sensation that I had grown lighter or heavier or, like…unstable.</p>
+    
+    <p>Did I…fall in some water?</p>
+    
+    <p>In the past ninety days, I hadn’t felt so much as a drop of water hit my body. I’d assumed I was in a rain-free cave or some other kind of shelter, so I had never even entertained the possibility before. I had probably slipped into a river or something. Rivers don’t exist indoors, so maybe it was some kind of underground creek in this cave I was in…? Up to now, I had been careful with every step I took, making sure everything remained steady in the darkness. But after learning about my skills, getting full of myself, and using Predation to eat a pasture’s worth of grass, I had stopped paying attention to what was under me. I was always like that. Getting cocky, then screwing it all up in the end. I’d proclaim to a customer, “Oh, absolutely! That won’t be any problem at all!” and then have hell to pay. It had happened over and over. I still remember the spiteful looks the rest of my team gave me for it.</p>
+    
+    <p>Too bad I didn’t think to stop myself in time. What kind of idiot runs off into parts unknown when they can’t even see? If I survived this, I was gonna give myself what for. Of course, given my personality, I doubted I’d learn anything from it. It was funny how serenely I was handling this whole thing, though. Not like I had much in the form of arms or legs I could flail about in horrified panic… Guess it’s over, then. Pretty short lifetime—even by slime standards, maybe. I said my final prayers, awaiting my inevitable suffocation. ……… …… … Suffocation never came.</p>
+    
+    <p>Why not? Did I not fall in the water? Time to call on the Sage, maybe.</p>
+    
+    <span class="sage-voice">Received. A slime’s body operates exclusively on magicules. Oxygen is unnecessary, and therefore, so is breathing. That is why you have not been engaging in that behavior.</span>
+    
+    <p>Oh… Right. I wasn’t paying attention, but I guess there wasn’t any breathing, was there? Made sense. Even after ninety days, I was still learning something new! But now wasn’t the time to celebrate. I had fallen into water, and even if I wouldn’t die, it did still put me in kind of a bind. What now? I couldn’t really tell whether I was floating or sinking. My lack of limbs precluded any attempt at swimming. Would I wind up at the bottom sooner or later and be able to creep my way back to the surface? Or was I doomed to bob around in the middle of the current, never reaching much of anywhere?</p>
+    
+    <p>Though, if anything, it felt less like a violent torrent and more like I was being rocked in a cradle. Very gently rocked. It felt pretty good, even… Something told me this wasn’t flowing water after all. Maybe it was a lake, not a river. I didn’t feel as though I was being taken anywhere. I was just kind of bobbing up and down, like a plastic bag, and it didn’t feel as if I’d ever hit bottom. If things stayed this way, I was in big trouble. What now?</p>
+    
+    <p>Just then, my brain cells—or my slime body, I guess—came up with an ingenious plan. Maybe I could go all Predator on this water and then spit it out for some water-jet propulsion. Would that work? Only one way to find out. Not like I could do anything else. So I started drinking, filling my Predator stomach up to approximately 10 percent of its capacity. Then, I expelled it like I was wringing out my stomach.</p>
+    
+    <p>The sense of release was exhilarating. Suddenly, I heard a voice in my mind:</p>
+    
+    <span class="sage-voice">Water Pressure Propulsion skill acquired.</span>
+    
+    <p>It was the first time I recognized it. This had to be the so-called World Language. There was no mistaking it, since the Sage spoke only when spoken to, but the two voices did sound exactly the same. But I didn’t have a moment to ponder over this. The more pressure I applied on the water, the more pressure I felt on myself, and I was rocketing forward at astonishing speed, as if I was about to launch myself into the sky. The acceleration was intense. Honestly, maybe it was a good thing I couldn’t see. Instead, I just basked in the sensation of my body zipping along through the darkness. Well, let me clarify. If I could’ve seen my surroundings, I’m sure the fear would’ve been intense…but not being able to see was just as terrifying.</p>
+    
+    <p>If you’ve ever been on a roller coaster in an amusement park in total darkness, perhaps you’d understand the feeling. My mind flashed back to my previous life and the single day I spent visiting a certain paradise under the rule of a certain rodent. At least his magical dreamland offered safety harnesses. By this point, I wanted to punch myself for coming up with the idea. And trying it out right after thinking it up? Come on, man! What happened to some kind of, you know, preliminary safety check? The terror was starting to affect my train of thought. How long would I keep accelerating? How much water did I spit out, anyway?</p>
+    
+    <p>As that thought occurred to me, I felt my body crash headlong into something and bounce off it. I braced myself for a wave of paralyzing pain. Which never came. Huh? Shouldn’t that have, like, damaged me? Or did it damage me, and I just didn’t feel it or whatever?</p>
+    
+    <span class="sage-voice">Received. You have acquired Cancel Pain, which interrupts the creation of pain. Your Resist Melee Attack has reduced the amount of damage taken. The amount of damage your body has incurred is ten percent. The intrinsic slime skill Self-Regeneration has taken effect. Would you like to support it with your Predator unique skill?<br>Yes No</span>
+    
+    <p>Oh, so I was hurt a little, then? Made sense. I wasn’t sure whether this was a good or bad thing, but as long as I knew something was up, then maybe I didn’t need to feel pain after all. It’d make certain things easier. Predator support, though, huh? I don’t really get it, but sure. “Yes.”</p>
+    
+    <p>At that moment, I was greeted with the feeling that I had suddenly lost some of my body mass. After a while, I felt it return. My damaged parts had been Predated, analyzed, and repaired. Talk about a useful body to have. I should try testing later to see how much of it I can afford to lose before I’m KO’d. It was way too dangerous to mess with in detail, but I guess I could afford to go without at least a bit of it at a time, so… Something told me I was getting a little too careful, anyway. I had a stockpile of recovery potions, which I didn’t even have to use. And I would’ve figured losing a tenth of my body would be a pretty serious issue, but now I knew I could just regenerate it in the space of ten seconds. Next time I was damaged, I’d try using those potions.</p>
+    
+    <p>So where am I, I wonder? Making sure my body was back to normal, I checked out my surroundings. No telling what kind of dangerous monsters might be nearby. I was out of the water, but maybe there were scary, scaly things waiting for me on the other side. Slowly, carefully, I started taking action. It kind of seemed as if whenever I did something “carefully,” it meant I was about to be exposed to a heap of danger. I was sure it was just my mind playing tricks on me, though. And that thought probably did me no favors, because…</p>
+    
+    <p style="font-style: italic; text-align: center; color: var(--color-accent); text-shadow: 0 0 3px var(--color-accent);">Can you hear me, little one?</p>
+    
+    <p>I heard something.</p>
+`;
+// Content for Chapter 1 Part 3 with custom Veldora dialogue style
+        const CHAPTER_1_PART_3_CONTENT = `
+    <p>Little one? It’s probably not anyone besides me, is it? It wasn’t a voice, exactly, but something I could recognize more directly and instinctually in my mind. I didn’t have any ears to listen with anyway.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Hello! You can hear me, can you not? Respond to me!</p>
+    
+    <p>Well, no shit! But how was I supposed to reply without any mouth? As an experiment, I tried thinking <i>Shut up, baldy!</i> in my mind—not like this guy could hear it or anything. But how was I gonna get anywhere here if I couldn’t even give a—</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">…Oh-ho! You dare to call me bald, do you…? Rather a lot of nerve packed into such a little body, no? I had hoped to give my first guest in quite a while a little kindness, but it would seem you are in rather a hurry to die!</p>
+    
+    <p>Uh-oh. Geez, could’ve warned me that would work first. And I had no idea who I was dealing with, either. Well, that was it. My loss. Time for an apology.</p>
+
+    <p><i>I’m sorry! I didn’t know how to reply to you, so I just tried saying the first thing that came to mind! I’m really sorry about that! I can’t see anything right now, so I have no idea what you even look like!</i></p>
+    
+    <p>Did that come across? Kind of rude to call this guy bald when I couldn’t even see him, I supposed. If he was, I’d probably just pushed some very delicate buttons.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Heh-heh-heh… Eh-ha-ha. Ahh-ha-ha-ha-ha-ha-ha!</p>
+    
+    <p>The resulting laugh came in three distinct levels. A masterpiece. So were we cool now, or—?</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">How fascinating. I had assumed you reacted as such upon seeing me, but you cannot, eh? Most slimes are low-level monsters, incapable of conscious thought as they run through the cycle of absorption, division, and regeneration. It is the rare one, indeed, that ever leaves its habitat.</p>
+    
+    <p>Now what was he talking about? Was he more curious than angry, then, or…? Either way, this was my first contact with another intelligent being. The first conversation in my new, oozy life. I wanted to keep it a friendly one.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">You had aroused my curiosity, slime, by the way you so eagerly slammed into my body. The regenerative powers you just showed astonish me. Are you a named monster, perhaps, or a unique?</p>
+    
+    <p><i>A what? And a what? Say again? I’m sorry, I don’t get what you mean. I’ve only been alive here for ninety days…</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Hmm. I suppose, with your sentience, you were never destined to be merely a slime. Named monsters are those who have been assigned an exclusive name. But only ninety days? Ridiculous. Are you a unique, then?</p>
+    
+    <p><i>“Unique” meaning…?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">A unique monster is an individual who has suddenly attained unusual abilities, akin to mutation. They are occasionally born in areas with high magical concentrations… Perhaps you were born from the mass of magicules that leaked out from me, then?</p>
+    
+    <p>Muh? What the heck? Let’s try using my previous-world knowledge to suss this out. This guy (I’ll call him a guy for convenience’s sake) had been leaking magic all over the local area. It was so thick, in fact, that it gave birth to a monster. A slime. Me. Was that it?</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Hmm. No monster has ever come close to approaching my domain in the past three hundred years. If you were born from my magical force, then perhaps, indeed, that gave you the power to touch me and live to tell the tale!</p>
+    
+    <p><i>Oh… So you’re kind of, like, my dad, then?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">No, not your parent by blood. I have no reproductive ability to speak of. Some monsters do, and some do not, you see.</p>
+    
+    <p>Really? ’Cause I thought that kind of came with the package by default. But if I just spontaneously burst out from magic or whatever, maybe you don’t need it, huh?</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">…Your intellectual abilities surprise me. Very few, indeed, are the monsters that possess anything of the sort. Among all the monsters, only magic-born have sentience in the way you or I would understand it.</p>
+    
+    <p>The commentary went on for a while. But the most important thing to learn from it was that apparently humans existed in this world, too. Then there were nonhumans, species very close to mankind in nature and similarly gifted with reproductive abilities. These included races like elves, hobbits, dwarves, and other fairy types, and generally they were allied with the humans. Alongside that, you had races like goblins, orcs, lizardmen, and so on, which were hostile toward mankind and treated like monsters as a result. This animosity wasn’t inherent to their biology, however, so crossbreeding was entirely possible. Next were the “magic-born people”—the catchall term for those who came into being from magic itself, monsters who experienced sudden mutation, and sentient beings evolved from animals or magical beasts. They had both intelligence and reproductive ability, but only within their own subspecies. In their upper social castes existed titans, vampires, devils, and other longer-lived species—all equally capable of having offspring, although they rarely did so, since their overwhelming magic force caused them to be nigh immortal, obviating the need to leave descendants. These diverse intelligent, reproducing species were hostile to mankind and collectively referred to as the “magic-born race.” And reading between the lines, the impression I got was that the magic- born weren’t so much overtly hostile toward humans as the humans feared and coveted their powers. It remained true, though, that both sides were fighting for their own living spaces. These sundry monsters had been classified by levels of danger. The upper ranks of the magic-born were packed with some pretty powerful buggers—all capable of leveling a human town solo if they felt like it. Not the kinds of guys you’d want to hang around. So my new companion kept going for a while—about how he’d fought against the upper-level magic-born in the past and so on. Finally, the subject turned back to me.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">As I told you, then, I lack the ability to produce offspring. The reason is simple… Because I do not need to. I am of the dragon race—one of only four in the world, both unique and the most perfect of my kind. You will hereby know me as Veldora, the Storm Dragon! My life span is infinite, my flesh unfathomable! As long as my will remains intact, I shall be ever alive! Ahhhhh-ha-ha-ha-ha-ha-ha- ha!!</p>
+    
+    <p>He could’ve skipped the laughter. I got it. So he didn’t need to have kids, because he was gonna live forever, right? And while this guy took a while to get to the point, he did mention something I didn’t want to overlook. Veldora was the Storm…Dragon? Plus, if he liked taking a good-natured swipe at upper-level magic- born now and then, he was…like, pretty tough, wasn’t he? Using my knowledge of Earth stuff, I tried to picture Veldora the Storm Dragon, no doubt seated in front of me right now. I didn’t like what my mind came up with. He seemed to be acting polite with me, and that made it all the creepier. So what now…?</p>
+    
+    <p><i>W-wow, really? Well, thanks for all that handy guidance, sir! Guess I better be on my way, then!</i></p>
+    
+    <p>I tried my best to flee.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Halt. I have told you all about myself. It is your turn now, would you not agree?</p>
+    
+    <p>I probably shouldn’t have expected any other treatment. Hmmmm. He wanted to know about me? If I told him about my miraculous journey from an alien planet, would he believe me? He seemed to marvel at how smart I was for a slime—if I tried to make something up, I doubted he’d fall for it. Such an attempt seemed like a good way to dig my own grave. Well, whatever. If he didn’t believe me, I’d deal with it then. Summoning my resolve, I told Veldora everything that had happened to me so far. ……… …… …</p>
+    
+    <p><i>So… Yeah. Here I am, I guess! It’s been super rough, y’know?</i></p>
+    
+    <p>While prudently keeping the topic of my skills unexplored, I regaled the dragon with my tale of being stabbed, waking up as a slime, and everything else that happened on the way to his domain. It was a bit weird how…well, non-rough it all sounded when I put it into words. But it was rough for me all the same. And the worst part was how I was literally operating blind the entire way. If some cute lady passed me on the road later on, would I ever get to see her? The thought saddened me a little.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Hmm. So a transmigrant, then? Your origins are quite rare, indeed.</p>
+    
+    <p><i>Huh? Are they? And you… “Transmigrant”? This isn’t any big surprise to you?</i></p>
+    
+    <p>What’s with that reaction? So these “transmigrants” were common enough that he had a name for them? What was so rare about it, then?</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Hmph. You do see transmigrants, on occasion. Their memories from the past are burned into their souls, due to a powerful will. There are some, indeed, who retain every memory of their past lives. But a transmigrant from another world… That is quite uncommon. A regular soul, by itself, would have no hope of surviving a journey across realms. It would dissolve midway, taking its memories with it. Someone retaining their full mind and becoming reborn as a monster out of pure magic… I cannot recall any past example of that. Quite…peculiar, indeed.</p>
+    
+    <p>Transmigrants from other worlds, it seemed, kept only part of their memories at best. Someone like me, who still had them all, was pretty well unheard of—not that I cared too much. He had just told me something I couldn’t afford to ignore. A soul, “by itself”…? So you could travel to this world without getting reincarnated or anything?</p>
+    
+    <p><i>Huh. Am I that unusual? ’Cause it sure doesn’t feel that way… Are there people, then, who come here from other worlds without being trans-whatevered?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">There are. None have succeeded in traveling to another world from here, but there are more than a few that have completed their travels here from elsewhere. They are known as “visitors,” or “otherworlders,” and they bear knowledge of things that do not exist in this world. They acquire, as I hear it, some manner of special power when they make the journey here. Beyond that, there are records of transmigrants, who—as I said—bear knowledge of other worlds. Not all of them choose to openly identify themselves as such, though, I imagine.</p>
+    
+    <p>Interesting. I didn’t know whether they came from the same planet I did, but it might be good to chat with them a bit. There might even be some from Japan, for all I knew. It was probably best for my sanity to have a goal while I was here, besides.</p>
+    
+    <p><i>I see, I see! In that case, I think I’ll try and track down some of these “otherworlders,” as you called them. Maybe I’ll find someone from my own land!</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Well, one moment. You said you cannot see, yes?</p>
+    
+    <p>Oh, uh, yeah. And? It was a pain in the ass, yes, but as long as I took my time and kept from getting myself killed, I was sure I’d run into some fellow visitors. Probably.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Let me help you see, then.</p>
+    
+    <p>Um, what? Damn. This guy… I mean, Veldora the Storm Dragon… He was acting way too nice to me, wasn’t he? Could I really trust him?</p>
+    
+    <p><i>Uh, really?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Indeed. On one condition, however. What do you say?</p>
+    
+    <p>I didn’t like the sound of that, but…ah, what the hell.</p>
+    
+    <p><i>What kind of condition?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">A simple one. When I grant you the ability of sight, I beg of you not to fear me. That, and I bid you come visit and speak to me again. That is all. I trust my terms are agreeable to you?</p>
+    
+    <p>That’s all? Was he sure? What a lonely dragon. Guess there was no one else around at the top. No wonder he couldn’t stop talking to me— I must’ve been his first conversational partner in ages. If I’d had my druthers, I would have said this dragon was a total pushover. He might’ve been feeding me a line this whole time, even, saying he was a dragon. Maybe the dragons in this world weren’t even all that powerful in the first place. Heh. This was a pretty good deal.</p>
+    
+    <p><i>Is that really all you need?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Yes. To be honest with you, I was sealed away in here three hundred years ago. Ever since then, I have had so much free time on my hands, I was practically out of my mind with boredom. What do you think?</p>
+    
+    <p><i>Well, if that’s all you need, you got yourself a deal!</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Good. It is a promise, then…and I trust you will hold up your end of the bargain.</p>
+    
+    <p><i>Of course! Maybe I don’t look it, but you can count on me, man! Just ask anybody on Earth! They’ll vouch for me!</i></p>
+    
+    <p>Hopefully he wouldn’t try to. That would be bad.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Very well. There is a skill known as Magic Sense. Can you use it?</p>
+    
+    <p>Oh, here we go again. More walls for me to deal with. So unfair.</p>
+    
+    <p><i>No, I can’t. What kind of skill is that?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">It allows you to perceive the particles of magic floating around you. It is not a very powerful skill, and all it offers is a visual reference, so it is not difficult to acquire.</p>
+    
+    <p><i>Oh… Sounds easy enough.</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Indeed. I can wield it as easily as I can breathe. I hardly even bother to think about it.</p>
+    
+    <p><i>Really? So once I learn that, I’ll be able to see again?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Precisely. This world is covered in sheer magic, although it is not spread evenly across its entire surface. Did you know, also, that light and sound both have the properties of a wave?</p>
+    
+    <p>Yeah, I’ve heard about that. Light waves and sound waves.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Ah. How intelligent of you. Did you learn of that in your past world? You must have, I wager. But, indeed, you will be able to observe how these waves disturb the nearby particles of magic, then use that information to calculate how the area around you looks and sounds. Simple, yes?</p>
+    
+    <p>Um? Not really? What kind of BS was that? <i>I, um, I’m not really sure whether that sounds simple or not, actually…</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">No? But that is what allows one to continue fighting even after losing both their sight and hearing! It protects you from surprise attacks, and that is all but a requirement for survival here, is it not?</p>
+    
+    <p><i>Y-yeah, but…can we skip all that fighting talk and just get me seeing again, maybe?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Mmm… Very well. Allow me to help you acquire this skill, then. This is the only method I am aware of.</p>
+    
+    <p><i>W-wait, can you do that? I’m kind of a newborn here…</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Worry not. You do have your memories from your past life, yes? And there, you gained knowledge about the nature of light and sound. Without that, not even I could help you, I wager. Luck is on your side, truly.</p>
+    
+    <p>True. I supposed it would be hard to explain sight to someone who can’t see at all. I certainly couldn’t manage it. I read somewhere that Helen Keller learned how to speak only by following cues she learned before going deaf at age two. Maybe I could use my knowledge of Earth to harness this “Magic Sense” thing to figure out what the world around me was like… Worth a shot, I guessed. This blindness was getting to be a massive pain. Plus, I had the Sage on my side. It could work this out.</p>
+    
+    <p><i>I’m ready to learn, sir!</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Now, now, no need for such ardor. It is quite simple. First, try moving the magic around you with the force in your body.</p>
+    
+    <p>I had an inkling of what he meant. It was the skill I’d probably adapted to blow myself out of the water a moment ago.</p>
+    
+    <p><i>Like this?</i></p>
+    
+    <p>I tensed up, trying to imagine the strength circulating through my body. I could feel something moving within—the magicules my companion was talking about. I hadn’t been conscious of it in the water, but it looked as though I could adjust the force by how much I tensed up. Before, I hadn’t been controlling the water so much as I was controlling the magic dancing around in it. I was exercising my magical muscles, and the particles around me were reacting. It came to me surprisingly quickly.</p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Mmm. You are more gifted in this than I thought. Now, do you see the difference between the magic moving within you and that outside of your body?</p>
+    
+    <p>Whoa. Maybe this actually was easy. Maybe I was more sensitive to the magic I absorbed now that I was conscious of the way I lived off it.</p>
+    
+    <p><i>Well, sure! Like, that’s the stuff I’ve been eating all along, right?</i></p>
+    
+    <p style="font-style: italic; color: var(--color-primary); text-shadow: 0 0 3px var(--color-primary);">Heh-heh-heh! If you understand that much, the rest is child’s play. All it takes is feeling the movements of the particles outside of you.</p>
+    
+    <p>Yeah, that I didn’t get. But I gave it a shot, doing as I was told and feeling out the particles surrounding me. And I found I could. I could sense them hanging in the air, riding air currents, moving around—all sorts of sensations. Let’s ask the Sage about this.</p>
+    
+    <span class="sage-voice">Confirmed. Extra skill “Magic Sense”…successfully acquired. Use the extra skill Magic Sense?<br>Yes No</span>
+    
+    <p>Huh? It was that easy? Well, sure—yes, then… Man, talk about a rock I can rely on!</p>
+    
+    <p>The moment I invoked Magic Sense, my brain was filled with new information. A massive amount, something my human brain never could’ve processed—the waves of light and sound pushing every single tiny particle around—and I processed it all, converting it into perceptible data.</p>
+`;
+        // Volume 1 Illustrations to be displayed on the Chapter List page
+        const VOLUME_1_ILLUSTRATIONS = `
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h3 style="color: var(--color-accent); margin-bottom: 1rem; text-shadow: 0 0 3px var(--color-accent);">Prologue Illustrations</h3>
+                <img src="https://i.imgur.com/4HpMSUD.jpeg" alt="Satoru Mikami being stabbed" loading="lazy" style="max-width: 90%; width: 400px; height: auto; margin-bottom: 1rem; border-radius: 0.5rem; box-shadow: 0 0 10px var(--color-primary);">
+                <img src="https://i.imgur.com/6ol00al.jpeg" alt="The newly reincarnated Slime" loading="lazy" style="max-width: 90%; width: 400px; height: auto; border-radius: 0.5rem; box-shadow: 0 0 10px var(--color-primary);">
+            </div>
+        `;
+
+       // --- UPDATED APP DATA ---
+        const appData = {
+            volumes: [
+                // That Time I Reincarnated as a Slime
+                { id: 1, title: "That Time I Reincarnated as a Slime", coverUrl: "https://i.imgur.com/2R8gdqp.jpeg", chapterCount: 4, preview: "The story of Satoru Mikami's reincarnation as the most powerful slime." },
+                // Renamed 'Mune' to 'Re:Zero'
+                { id: 50, title: "Re:Zero - Starting Life in Another World", coverUrl: "https://placehold.co/180x280/ffffff?text=RE:ZERO", chapterCount: 0, preview: "A placeholder for the new series, Re:Zero." },
+            ],
+            // Chapter 1 Part 3 has been added
+            chapters: {
+                'v1p0': { title: "Prologue: Death and Reincarnation", text: PROLOGUE_CONTENT, volumeId: 1, chapterIndex: 0 }, 
+                'v1c1': { title: "Chapter 1: My First Friend", text: CHAPTER_1_CONTENT, volumeId: 1, chapterIndex: 1 },
+                'v1c1p2': { title: "Chapter 1: My First Friend (Part 2)", text: CHAPTER_1_PART_2_CONTENT, volumeId: 1, chapterIndex: 2 },
+                'v1c1p3': { title: "Chapter 1: My First Friend (Part 3)", text: CHAPTER_1_PART_3_CONTENT, volumeId: 1, chapterIndex: 3 },
+            },
+            // 'characters' data has been REMOVED.
+        };
+        // --- GLOBAL STATE & UTILITIES ---
+        const app = document.getElementById('app');
+        const navBar = document.getElementById('nav-bar');
+        let currentPage = 'home';
+        let currentChapterKey = null;
+
+        let settings = {
+            theme: 'dark',
+            fontSize: 18,
+            lineSpacing: 1.8,
+            lastChapterKey: null
+        };
+
+        const storageSafe = {
+            set: (key, value) => { try { localStorage.setItem(key, value); } catch (e) { console.error("LocalStorage write failed:", e); } },
+            get: (key) => { try { return localStorage.getItem(key); } catch (e) { console.error("LocalStorage read failed:", e); return null; } },
+            parse: (key) => { try { const data = localStorage.getItem(key); return data ? JSON.parse(data) : null; } catch (e) { console.error("LocalStorage parse failed:", e); return null; } }
+        };
+
+
+        function loadSettings() {
+            const storedSettings = storageSafe.parse('readerSettings');
+            if (storedSettings) {
+                settings = { ...settings, ...storedSettings };
+            }
+            applyTheme(settings.theme);
+            currentChapterKey = settings.lastChapterKey;
+        }
+
+        function saveSettings() {
+            storageSafe.set('readerSettings', JSON.stringify(settings));
+        }
+
+        function applyTheme(theme) {
+            document.body.className = theme === 'light' ? 'light-mode' : '';
+            settings.theme = theme;
+            saveSettings();
+        }
+
+        function updateReaderStyle() {
+            const panel = document.getElementById('reading-panel');
+            if (panel) {
+                const content = document.getElementById('reader-content');
+                content.style.fontSize = `${settings.fontSize}px`;
+                content.style.lineHeight = `${settings.lineSpacing}`;
+            }
+            if (currentPage === 'settings') {
+                renderSettingsScreen();
+            }
+        }
+
+        // --- NAVIGATION & ROUTING ---
+        function navigate(page, data = null) {
+            currentPage = page;
+            app.innerHTML = '';
+            navBar.style.display = (page === 'home') ? 'none' : 'flex';
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.page === page);
+            });
+
+            // Slime orbs visible only on secondary screens
+            const slimeVisibility = (page !== 'home' && page !== 'reader') ? 'block' : 'none';
+            document.querySelectorAll('.slime-orb').forEach(orb => orb.style.display = slimeVisibility);
+
+            if (page === 'home') return renderHomeScreen();
+            if (page === 'volumes') return renderVolumesScreen();
+            if (page === 'chapters' && data && data.volumeId) return renderChapterList(data.volumeId);
+            if (page === 'reader' && data && data.chapterKey) return renderReaderScreen(data.chapterKey);
+            // Removed characters screen route
+            if (page === 'settings') return renderSettingsScreen();
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderHomeScreen() {
+            const lastChapterText = currentChapterKey ? `Continue Reading ${appData.chapters[currentChapterKey].title}` : 'Explore Novels';
+
+            app.innerHTML = `
+                <div id="home-screen">
+                    <div>
+                        <h1 class="logo-text">NOVELVERSE</h1>
+                        <p style="color: var(--color-accent); font-size: 1.2rem; margin-top: -1rem; text-shadow: 0 0 5px var(--color-accent);">Your Gateway to Isekai and Fantasy</p>
+                    </div>
+                    
+                    <!-- Updated Hero Image URL -->
+                    <img src="https://i.imgur.com/DLA9p2u.jpeg" alt="Rimuru Tempest Hero" class="hero-image">
+
+                    <button class="neon-button" onclick="navigate('volumes')">
+                        ${lastChapterText}
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderVolumesScreen() {
+            const volumesHtml = appData.volumes.map(vol => {
+                let statusText;
+                if (vol.chapterCount === 0) {
+                    // Added "TO BE RELEASED" text for novels with 0 chapters
+                    statusText = '<p style="font-size: 0.9rem; color: #ff4d4d; font-weight: bold; margin-top: 5px;">TO BE RELEASED</p>';
+                } else {
+                    statusText = `<p style="font-size: 0.8rem; color: var(--color-text-dim);">${vol.chapterCount} Chapters</p>`;
+                }
+
+                return `
+                    <div class="volume-card glass-panel" onclick="navigate('chapters', {volumeId: ${vol.id}})">
+                        <div>
+                            <img src="${vol.coverUrl}" alt="${vol.title} Cover" class="volume-cover">
+                            <h3>${vol.title}</h3>
+                        </div>
+                        ${statusText}
+                    </div>
+                `;
+            }).join('');
+
+            app.innerHTML = `
+                <div id="volumes-screen">
+                    <h2 style="text-align: center; margin-bottom: 30px; text-shadow: 0 0 5px var(--color-accent);">Novel List</h2>
+                    <div class="volume-grid">
+                        ${volumesHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderChapterList(volumeId) {
+            const volume = appData.volumes.find(v => v.id === volumeId);
+            if (!volume) { navigate('volumes'); return; }
+
+            const chaptersInVolume = Object.entries(appData.chapters)
+                .map(([key, chap]) => ({ key, ...chap })) 
+                .filter(chap => chap.volumeId === volumeId)
+                .sort((a, b) => a.chapterIndex - b.chapterIndex);
+
+            let chaptersHtml;
+
+            if (chaptersInVolume.length === 0) {
+                 chaptersHtml = `<div style="text-align: center; padding: 30px; color: var(--color-text-dim);">
+                                    <p>More chapters for <b>${volume.title}</b> coming soon!</p>
+                                 </div>`;
+            } else {
+                 chaptersHtml = chaptersInVolume.map(chap => `
+                    <div class="chapter-item" onclick="navigate('reader', {chapterKey: '${chap.key}'})">
+                        <h4>${chap.title}</h4>
+                        <p>${volume.preview}</p>
+                        ${chap.key === currentChapterKey ? '<span style="color: var(--color-accent); font-weight: bold; font-size: 0.8rem;">(Last Read)</span>' : ''}
+                    </div>
+                `).join('');
+            }
+            
+            // Inject illustrations only for Volume 1 (now just the Prologue)
+            const illustrationInjection = volumeId === 1 ? VOLUME_1_ILLUSTRATIONS : '';
+
+            app.innerHTML = `
+                <div id="volumes-screen">
+                    <h2 style="text-align: center; margin-bottom: 20px; text-shadow: 0 0 5px var(--color-primary);">${volume.title}</h2>
+                    
+                    ${illustrationInjection} <!-- Injected Prologue Illustrations -->
+
+                    <div id="chapters-list">
+                        ${chaptersHtml}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderReaderScreen(chapterKey) {
+            const chapter = appData.chapters[chapterKey];
+            if (!chapter) { navigate('volumes'); return; }
+
+            currentChapterKey = chapterKey;
+            settings.lastChapterKey = chapterKey;
+            saveSettings();
+
+            app.innerHTML = `
+                <div id="reader-screen">
+                    <h2 style="text-align: center; color: var(--color-accent); margin-bottom: 20px; text-shadow: 0 0 3px var(--color-accent);">${chapter.title}</h2>
+                    
+                    <div id="progress-bar-container">
+                        <div id="progress-bar"></div>
+                    </div>
+
+                    <div id="reading-panel" class="glass-panel page-fade">
+                        <div id="reader-content">${chapter.text}</div>
+                    </div>
+                </div>
+                
+                <div class="reader-nav-buttons">
+                    <button class="reader-nav-btn" onclick="goToPreviousChapter()">
+                        &#9664; <!-- Left Arrow -->
+                    </button>
+                    <button class="reader-nav-btn" onclick="goToNextChapter()">
+                        &#9654; <!-- Right Arrow -->
+                    </button>
+                </div>
+            `;
+
+            updateReaderStyle();
+            
+            // Add scroll listener for progress bar
+            const panel = document.getElementById('reading-panel');
+            panel.addEventListener('scroll', updateProgressBar);
+            updateProgressBar(); // Initial call
+        }
+        
+        // Removed renderCharactersScreen()
+
+        function renderSettingsScreen() {
+            // Re-render settings screen to show current values
+            app.innerHTML = `
+                <div id="settings-panel" class="glass-panel">
+                    <h2 style="text-align: center; margin-bottom: 30px; color: var(--color-accent);">Reader Settings</h2>
+
+                    <!-- Theme Toggle -->
+                    <div class="setting-group">
+                        <label>Theme</label>
+                        <div>
+                            <button class="neon-button" style="padding: 0.5rem 1rem; font-size: 1rem; margin: 0 5px;" 
+                                onclick="applyTheme('dark')" 
+                                ${settings.theme === 'dark' ? 'style="background: var(--color-primary);"' : ''}>Dark</button>
+                            <button class="neon-button" style="padding: 0.5rem 1rem; font-size: 1rem; margin: 0 5px;" 
+                                onclick="applyTheme('light')"
+                                ${settings.theme === 'light' ? 'style="background: var(--color-primary);"' : ''}>Light</button>
+                        </div>
+                    </div>
+
+                    <!-- Font Size -->
+                    <div class="setting-group">
+                        <label>Font Size: <span id="font-size-value">${settings.fontSize}px</span></label>
+                        <input type="range" min="14" max="24" value="${settings.fontSize}" step="1" 
+                               oninput="settings.fontSize = parseInt(this.value); document.getElementById('font-size-value').textContent = this.value + 'px'; updateReaderStyle(); saveSettings();">
+                    </div>
+
+                    <!-- Line Spacing -->
+                    <div class="setting-group">
+                        <label>Line Spacing: <span id="line-spacing-value">${settings.lineSpacing.toFixed(1)}</span></label>
+                        <input type="range" min="1.0" max="2.5" value="${settings.lineSpacing}" step="0.1" 
+                               oninput="settings.lineSpacing = parseFloat(this.value); document.getElementById('line-spacing-value').textContent = this.value; updateReaderStyle(); saveSettings();">
+                    </div>
+
+                    <p style="color: var(--color-text-dim); text-align: center; margin-top: 30px;">Settings will be applied to the Reader Interface.</p>
+                </div>
+            `;
+        }
+
+        // --- READER LOGIC (UNCHANGED) ---
+
+        function updateProgressBar() {
+            const panel = document.getElementById('reading-panel');
+            const progressBar = document.getElementById('progress-bar');
+            if (!panel || !progressBar) return;
+
+            const scrollHeight = panel.scrollHeight - panel.clientHeight;
+            const scrollPosition = panel.scrollTop;
+            let progress = 0;
+
+            if (scrollHeight > 0) {
+                progress = (scrollPosition / scrollHeight) * 100;
+            } else {
+                progress = 100; // If content fits, show 100%
+            }
+
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function getChapterNeighbors(currentKey) {
+            const allChapters = Object.entries(appData.chapters)
+                .map(([key, chap]) => ({ key, ...chap }))
+                .sort((a, b) => {
+                    // Sort by Volume ID first, then Chapter Index
+                    if (a.volumeId !== b.volumeId) return a.volumeId - b.volumeId;
+                    return a.chapterIndex - b.chapterIndex;
+                });
+
+            const currentIndex = allChapters.findIndex(chap => chap.key === currentKey);
+            
+            return {
+                prev: currentIndex > 0 ? allChapters[currentIndex - 1].key : null,
+                next: currentIndex < allChapters.length - 1 ? allChapters[currentIndex + 1].key : null,
+            };
+        }
+
+        function goToPreviousChapter() {
+            const neighbors = getChapterNeighbors(currentChapterKey);
+            if (neighbors.prev) {
+                const panel = document.getElementById('reading-panel');
+                panel.classList.remove('page-fade');
+                void panel.offsetWidth; // Trigger reflow
+                navigate('reader', { chapterKey: neighbors.prev });
+            } else {
+                // Using console.log instead of alert per guidelines
+                console.log("This is the first available chapter.");
+            }
+        }
+
+        function goToNextChapter() {
+            const neighbors = getChapterNeighbors(currentChapterKey);
+            if (neighbors.next) {
+                 const panel = document.getElementById('reading-panel');
+                panel.classList.remove('page-fade');
+                void panel.offsetWidth; // Trigger reflow
+                navigate('reader', { chapterKey: neighbors.next });
+            } else {
+                console.log("End of current available content.");
+            }
+        }
+
+        // --- INITIALIZATION ---
+        function initApp() {
+            loadSettings();
+
+            // Set up Nav Bar listeners
+            document.getElementById('nav-bar').addEventListener('click', (event) => {
+                if (event.target.classList.contains('nav-item')) {
+                    const page = event.target.dataset.page;
+                    navigate(page);
+                }
+            });
+
+            // Initial view
+            navigate('home');
+        }
+
+        window.onload = initApp;
+    </script>
+
+</body>
+</html>
