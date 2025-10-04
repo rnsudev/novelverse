@@ -457,6 +457,24 @@
         }
         
         }
+        /* --- Full Screen Reader Mode --- */
+    body.reader-mode {
+        /* Ensures no scrollbars appear on the body itself */
+        overflow: hidden;
+    }
+    
+    /* Hide distractions when in reader mode */
+    body.reader-mode #nav-bar,
+    body.reader-mode .slime-orb {
+        display: none !important;
+    }
+
+    /* Style the button container in reader mode to be a vertical stack */ /* <-- PASTE THE NEW CSS RULE HERE */
+    body.reader-mode .reader-nav-buttons {
+        flex-direction: column;
+    }
+
+    /* ... (the rest of the full screen CSS) ... */
     </style>
 </head>
 <body>
@@ -1416,6 +1434,15 @@ const CHAPTER_1_CONTENT = `
                 </div>
                 
                 <div class="reader-nav-buttons">
+                    <!-- NEW: Scroll Up Button -->
+                    <button class="reader-nav-btn" onclick="scrollPage(-1)">
+                        &#9650; <!-- Up Arrow -->
+                    </button>
+                    <!-- NEW: Scroll Down Button -->
+                    <button class="reader-nav-btn" onclick="scrollPage(1)">
+                        &#9660; <!-- Down Arrow -->
+                    </button>
+
                     <button class="reader-nav-btn" onclick="goToPreviousChapter()">
                         &#9664; <!-- Left Arrow -->
                     </button>
@@ -1423,7 +1450,6 @@ const CHAPTER_1_CONTENT = `
                         &#9654; <!-- Right Arrow -->
                     </button>
                 </div>
-            `;
 
             updateReaderStyle();
             
@@ -1535,8 +1561,26 @@ const CHAPTER_1_CONTENT = `
             }
         }
 
-        // --- INITIALIZATION ---
-        function initApp() {
+}
+    }
+
+    // --- NEW: Reader Scroll Functions ---  <-- PASTE THE NEW JS BLOCK HERE
+    function scrollPage(direction) {
+        const panel = document.getElementById('reading-panel');
+        if (!panel) return;
+
+        // Scroll by 85% of the visible height for a pleasant "page turn" feel
+        const scrollAmount = panel.clientHeight * 0.85;
+        
+        panel.scrollBy({
+            top: scrollAmount * direction, // direction will be 1 (down) or -1 (up)
+            left: 0,
+            behavior: 'smooth' // This makes the scroll animated and not instant
+        });
+    }
+
+    // --- INITIALIZATION ---
+    function initApp() {
             loadSettings();
 
             // Set up Nav Bar listeners
